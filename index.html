@@ -1,3 +1,22 @@
+Listed directory MI%20PORTAFOLIO
+
+Aquí tienes los cambios realizados y el código completo corregido listo para copiar y pegar:
+
+### 🛠️ Resumen de Correcciones Realizadas:
+1. **Scroll Horizontal Responsivo (`overflow-x: auto`)**:
+   - Se envolvió la rejilla `#grid-semanal` en un contenedor con la clase `overflow-x-auto`.
+   - Se estableció un ancho mínimo total de `750px` (`min-w-[750px]`) en la rejilla de 5 días para pantallas pequeñas, asegurando que cada columna del día tenga **al menos 150px de ancho**. En pantallas medianas y grandes se expande dinámicamente al 100% (`md:min-w-full`).
+   - Se agregó `min-w-[150px]` a las columnas de los días generadas dinámicamente.
+
+2. **Tarjetas de Turnos Auto-ajustables (Sin texto cortado)**:
+   - Se reemplazó la propiedad `truncate` por `break-words whitespace-normal` para permitir saltos de línea limpios en los nombres de pacientes/clientes.
+   - En la cabecera del turno (hora y estado), se agregó `flex-wrap gap-1` y `break-words` para evitar que estados largos como `"CANCELADO"` o `"CONFIRMADO"` se solapen o desborden la tarjeta.
+
+---
+
+### 💻 Código Completo Corregido:
+
+```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -244,19 +263,22 @@
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div class="lg:col-span-2 space-y-6">
           <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200 space-y-4">
-            <div class="flex items-center justify-between border-b pb-3">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b pb-3 gap-2">
               <div>
                 <h2 class="text-base font-extrabold text-slate-800">Calendario Semanal de Agenda</h2>
                 <p class="text-xs text-slate-500">Tarjetas clasificadas por estado de color (Verde=Confirmado, Amarillo=Pendiente, Rojo=Cancelado)</p>
               </div>
-              <div class="flex items-center space-x-2 text-[11px]">
+              <div class="flex flex-wrap items-center gap-2 text-[11px]">
                 <span class="flex items-center space-x-1"><span class="w-2.5 h-2.5 bg-emerald-500 rounded-full inline-block"></span> <span>Confirmado</span></span>
                 <span class="flex items-center space-x-1"><span class="w-2.5 h-2.5 bg-amber-400 rounded-full inline-block"></span> <span>Pendiente</span></span>
                 <span class="flex items-center space-x-1"><span class="w-2.5 h-2.5 bg-rose-500 rounded-full inline-block"></span> <span>Cancelado</span></span>
               </div>
             </div>
 
-            <div id="grid-semanal" class="grid grid-cols-5 gap-3 min-h-[320px]"></div>
+            <!-- Contenedor con scroll horizontal para pantallas móviles (<768px) -->
+            <div class="overflow-x-auto pb-2">
+              <div id="grid-semanal" class="grid grid-cols-5 gap-3 min-w-[750px] md:min-w-full min-h-[320px]"></div>
+            </div>
           </div>
 
           <!-- Bloqueos de Agenda Registrados -->
@@ -584,7 +606,7 @@
 
       diasNombre.forEach((dNombre, idx) => {
         const col = document.createElement('div');
-        col.className = `rounded-xl border p-2.5 space-y-2 flex flex-col ${idx === 0 ? 'bg-sky-50/60 border-sky-300' : 'bg-slate-50 border-slate-200'}`;
+        col.className = `rounded-xl border p-2.5 space-y-2 flex flex-col min-w-[150px] ${idx === 0 ? 'bg-sky-50/60 border-sky-300' : 'bg-slate-50 border-slate-200'}`;
         col.innerHTML = `<div class="text-center border-b pb-1 text-xs font-bold text-slate-700">${dNombre}</div>`;
 
         const turnosDia = turnosData.filter(t => t.dia === idx + 1);
@@ -595,8 +617,11 @@
 
           col.innerHTML += `
             <div class="p-2 rounded-lg border ${colorBg} text-[11px] shadow-sm">
-              <div class="flex justify-between font-bold"><span>${t.hora} hs</span><span>${t.estado.toUpperCase()}</span></div>
-              <p class="font-bold truncate mt-0.5 text-slate-900">${t.paciente}</p>
+              <div class="flex flex-wrap items-center justify-between gap-1 font-bold leading-tight">
+                <span>${t.hora} hs</span>
+                <span class="break-words text-[10px]">${t.estado.toUpperCase()}</span>
+              </div>
+              <p class="font-bold break-words whitespace-normal mt-1 text-slate-900 leading-snug">${t.paciente}</p>
             </div>
           `;
         });
