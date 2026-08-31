@@ -1,22 +1,3 @@
-Listed directory MI%20PORTAFOLIO
-
-Aquí tienes los cambios realizados y el código completo corregido listo para copiar y pegar:
-
-### 🛠️ Resumen de Correcciones Realizadas:
-1. **Scroll Horizontal Responsivo (`overflow-x: auto`)**:
-   - Se envolvió la rejilla `#grid-semanal` en un contenedor con la clase `overflow-x-auto`.
-   - Se estableció un ancho mínimo total de `750px` (`min-w-[750px]`) en la rejilla de 5 días para pantallas pequeñas, asegurando que cada columna del día tenga **al menos 150px de ancho**. En pantallas medianas y grandes se expande dinámicamente al 100% (`md:min-w-full`).
-   - Se agregó `min-w-[150px]` a las columnas de los días generadas dinámicamente.
-
-2. **Tarjetas de Turnos Auto-ajustables (Sin texto cortado)**:
-   - Se reemplazó la propiedad `truncate` por `break-words whitespace-normal` para permitir saltos de línea limpios en los nombres de pacientes/clientes.
-   - En la cabecera del turno (hora y estado), se agregó `flex-wrap gap-1` y `break-words` para evitar que estados largos como `"CANCELADO"` o `"CONFIRMADO"` se solapen o desborden la tarjeta.
-
----
-
-### 💻 Código Completo Corregido:
-
-```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
